@@ -1,5 +1,5 @@
 # Base con Apache y PHP 8.3 (TastyIgniter 4.x requiere PHP 8.3+)
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Instala dependencias del sistema y extensiones PHP necesarias
 RUN apt-get update && apt-get install -y \
@@ -29,11 +29,13 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Establece directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia composer.json y composer.lock (si existe)
+# Copia composer.json
 COPY composer.json ./
-COPY composer.lock ./ || echo "No composer.lock found, se generará durante install"
 
-# Instala dependencias PHP y asegura la generación de vendor/
+# Copia composer.lock solo si existe (Docker 1.18+ soporta --ignore-missing)
+COPY --ignore-missing composer.lock ./
+
+# Instala dependencias PHP
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-* --prefer-dist --no-scripts
 
 # Copia todo el código fuente
