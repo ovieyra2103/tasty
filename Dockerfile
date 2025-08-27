@@ -1,5 +1,5 @@
 # Base con Apache y PHP 8.3 (TastyIgniter 4.x requiere PHP 8.3+)
-FROM php:8.3-apache
+FROM php:8.2-apache
 
 # Instala dependencias del sistema y extensiones PHP necesarias
 RUN apt-get update && apt-get install -y \
