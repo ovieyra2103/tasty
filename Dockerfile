@@ -48,7 +48,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \;
 
 # Ejecuta instalación de TastyIgniter en modo no interactivo
-RUN php artisan igniter:install --no-interaction || echo "TastyIgniter ya instalado o requiere revisión manual"
+RUN php artisan igniter:install --no-interaction
 
 # Configura cron para scheduler
 RUN echo "* * * * * www-data php /var/www/html/artisan schedule:run >> /dev/null 2>&1" >> /etc/cron.d/tastyigniter \
