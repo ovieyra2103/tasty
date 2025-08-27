@@ -32,8 +32,9 @@ WORKDIR /var/www/html
 # Copia composer.json
 COPY composer.json ./
 
-# Copia composer.lock solo si existe (Docker 1.18+ soporta --ignore-missing)
-COPY --ignore-missing composer.lock ./
+# Copia composer.lock solo si existe (compatibilidad total)
+RUN if [ -f composer.lock ]; then cp composer.lock ./; \
+    else echo "No composer.lock found, se generará durante install"; fi
 
 # Instala dependencias PHP
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-* --prefer-dist --no-scripts
